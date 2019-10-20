@@ -25,9 +25,9 @@ from absl import logging
 import tensorflow as tf
 import tensorflow_probability as tfp
 
-from cs_gan import cs
-from cs_gan import file_utils
-from cs_gan import utils
+import cs as cs
+import file_utils as file_utils
+import utils as utils
 
 tfd = tfp.distributions
 

@@ -22,7 +22,7 @@ import numpy as np
 import tensorflow as tf
 import tensorflow_probability as tfp
 
-from cs_gan import nets
+import nets as nets
 
 tfd = tfp.distributions
 

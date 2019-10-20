@@ -21,7 +21,7 @@ import math
 import sonnet as snt
 import tensorflow as tf
 
-from cs_gan import utils
+import utils as utils
 
 
 class CS(object):
