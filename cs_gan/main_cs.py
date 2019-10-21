@@ -55,7 +55,7 @@ flags.DEFINE_integer(
     'export_every', 10,
     'The interval at which to export samples.')
 flags.DEFINE_string(
-    'dataset', 'mnist', 'The dataset used for learning (cifar|mnist.')
+    'dataset', 'mnist_linear', 'The dataset used for learning (cifar|mnist|mnist_linear).')
 flags.DEFINE_float('learning_rate', 1e-4, 'Learning rate.')
 flags.DEFINE_string(
     'output_dir', '/tmp/cs_gan/cs', 'Location where to save output files.')
