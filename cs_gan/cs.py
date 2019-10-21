@@ -83,7 +83,7 @@ class CS(object):
     r2 = self._get_rip_loss(samples, data)
     r3 = self._get_rip_loss(initial_samples, data)
     rip_loss = tf.reduce_mean((r1 + r2 + r3) / 3.0)
-    total_loss = generator_loss
+    total_loss = generator_loss + rip_loss
     optimization_components = self._build_optimization_components(
         generator_loss=total_loss)
     debug_ops['rip_loss'] = rip_loss
