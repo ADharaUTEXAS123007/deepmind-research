@@ -144,7 +144,7 @@ class DataProcessor(object):
 def _get_np_data(data_processor, dataset, split='train'):
   """Get the dataset as numpy arrays."""
   index = 0 if split == 'train' else 1
-  if dataset == 'mnist':
+  if dataset == 'mnist' or dataset == 'mnist_linear':
     # Construct the dataset.
     x, _ = tf.keras.datasets.mnist.load_data()[index]
     # Note: tf dataset is binary so we convert it to float.
@@ -212,7 +212,7 @@ def get_train_dataset(data_processor, dataset, batch_size):
 
 
 def get_generator(dataset):
-  if dataset == 'mnist':
+  if dataset == 'mnist' or dataset == 'mnist_linear':
     return nets.MLPGeneratorNet()
   if dataset == 'cifar':
     return nets.SNGenNet()
