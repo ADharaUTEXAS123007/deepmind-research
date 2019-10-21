@@ -133,13 +133,13 @@ class CS(object):
       self, generator_loss=None, discriminator_loss=None):
     """Create the optimization components for this module."""
 
-    metric_vars = _get_and_check_variables(self._measure)
+    # metric_vars = _get_and_check_variables(self._measure)
     generator_vars = _get_and_check_variables(self.generator)
     step_vars = _get_and_check_variables(self._log_step_size_module)
 
     assert discriminator_loss is None
     optimization_components = utils.OptimizationComponent(
-        generator_loss, generator_vars + metric_vars + step_vars)
+        generator_loss, generator_vars + step_vars) #+ metric_vars
     return optimization_components
 
 

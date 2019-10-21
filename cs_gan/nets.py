@@ -100,7 +100,25 @@ class MLPMetricNet(snt.AbstractModule):
     self._layer_size = [500, 500, num_outputs]
 
   def _build(self, inputs):
+
     net = snt.nets.MLP(self._layer_size,
                        activation=tf.nn.leaky_relu)
     output = net(snt.BatchFlatten()(inputs))
+    return output
+
+
+class FixedLinear(snt.AbstractModule):
+  """Just a linear compressive sensing matrix"""
+
+  def __init__(self, num_outputs=2, name='linear_metric'):
+    super(FixedLinear, self).__init__(name=name)
+    self.LinearOperator = np.sqrt(1.0/num_outputs)*tf.random.normal( 
+                          [784, 25], 
+                          mean=0.0, 
+                          stddev=1.0, 
+                          dtype=tf.dtypes.float32)
+
+  def _build(self, inputs):
+
+    output = tf.linalg.matmul(snt.BatchFlatten()(inputs), self.LinearOperator)
     return output

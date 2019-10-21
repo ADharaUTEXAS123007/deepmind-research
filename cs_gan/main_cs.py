@@ -83,6 +83,7 @@ def main(argv):
   # Create the networks and models.
   generator = utils.get_generator(FLAGS.dataset)
   metric_net = utils.get_metric_net(FLAGS.dataset, FLAGS.num_measurements)
+
   model = cs.CS(metric_net, generator,
                 FLAGS.num_z_iters, FLAGS.z_step_size, FLAGS.z_project_method)
   prior = utils.make_prior(FLAGS.num_latents)

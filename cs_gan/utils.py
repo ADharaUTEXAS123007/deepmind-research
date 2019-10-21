@@ -220,7 +220,8 @@ def get_generator(dataset):
 
 def get_metric_net(dataset, num_outputs=2):
   if dataset == 'mnist':
-    return nets.MLPMetricNet(num_outputs)
+    # return nets.MLPMetricNet(num_outputs)
+    return nets.FixedLinear(num_outputs)
   if dataset == 'cifar':
     return nets.SNMetricNet(num_outputs)
 
