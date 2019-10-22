@@ -58,7 +58,7 @@ flags.DEFINE_string(
     'dataset', 'mnist_linear', 'The dataset used for learning (cifar|mnist|mnist_linear).')
 flags.DEFINE_float('learning_rate', 1e-4, 'Learning rate.')
 flags.DEFINE_string(
-    'output_dir', '/data/aws/deepmind-research/cs_gan_linear/cs', 'Location where to save output files.')
+    'output_dir', '/tmp/cs_gan/cs', 'Location where to save output files.')
 flags.DEFINE_string(
     'phase', 'test', 'phase')
 
