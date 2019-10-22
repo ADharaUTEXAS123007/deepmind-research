@@ -59,7 +59,8 @@ flags.DEFINE_string(
 flags.DEFINE_float('learning_rate', 1e-4, 'Learning rate.')
 flags.DEFINE_string(
     'output_dir', '/tmp/cs_gan/cs', 'Location where to save output files.')
-
+flags.DEFINE_string(
+    'phase', 'test', 'phase')
 
 FLAGS = flags.FLAGS
 
@@ -122,20 +123,43 @@ def main(argv):
   hooks = [checkpoint_saver_hook, nan_hook, step_conter_hook,
            loss_summary_saver_hook]
 
-  # Start training.
-  with tf.train.MonitoredSession(hooks=hooks) as sess:
-    logging.info('starting training')
+  if FLAGS.phase == 'train':
+    # Start training.
+    with tf.train.MonitoredSession(hooks=hooks) as sess:
+      logging.info('starting training')
 
-    for i in range(FLAGS.num_training_iterations):
-      sess.run(update_op)
+      for i in range(FLAGS.num_training_iterations):
+        sess.run(update_op)
 
-      if i % FLAGS.export_every == 0:
-        reconstructions_np, data_np = sess.run([reconstructions, images])
-        # Create an object which gets data and does the processing.
-        data_np = data_processor.postprocess(data_np)
-        reconstructions_np = data_processor.postprocess(reconstructions_np)
-        sample_exporter.save(reconstructions_np, 'reconstructions')
-        sample_exporter.save(data_np, 'data')
+        if i % FLAGS.export_every == 0:
+          reconstructions_np, data_np = sess.run([reconstructions, images])
+          # Create an object which gets data and does the processing.
+          data_np = data_processor.postprocess(data_np)
+          reconstructions_np = data_processor.postprocess(reconstructions_np)
+          sample_exporter.save(reconstructions_np, 'reconstructions')
+          sample_exporter.save(data_np, 'data')
+  else:
+    saver = tf.train.Saver()
+    # Start testing
+    with tf.Session() as sess:
+
+      init_op = tf.global_variables_initializer()
+      sess.run(init_op)
+
+      print(" [*] Reading checkpoint...")
+      checkpoint_dir = utils.get_ckpt_dir(FLAGS.output_dir)
+
+      ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
+      if ckpt and ckpt.model_checkpoint_path:
+          ckpt_name = os.path.basename(ckpt.model_checkpoint_path)
+          saver.restore(sess, os.path.join(checkpoint_dir, ckpt_name))
+
+      reconstructions_np, data_np = sess.run([reconstructions, images])
+      # Create an object which gets data and does the processing.
+      data_np = data_processor.postprocess(data_np)
+      reconstructions_np = data_processor.postprocess(reconstructions_np)
+      sample_exporter.save(reconstructions_np, 'reconstructions')
+      sample_exporter.save(data_np, 'data')
 
 
 if __name__ == '__main__':
